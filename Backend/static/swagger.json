@@ -1,155 +1,430 @@
-openapi: 3.0.3
-info:
-  title: Catálogo de veículos
-  description: API - Catalogo Veiculo
-  version: 1.0.11
-servers:
-  - url: /
-paths:
-  /buscar-usuarios:
-      get:
-        tags:
-          - Usuario
-        responses:
-          '200':
-            description: successful operation
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/usuario'
-              application/xml:
-                schema:
-                  $ref: '#/components/schemas/usuario'
-          '404':
-            description: User not found
-  /buscar-usuario/{usuarioid}:
-    get:
-      tags:
-        - Usuario
-      parameters:
-        - name: usuarioid
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-      responses:
-        '200':
-          description: A user object.
-          content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/usuario'
-              application/xml:
-                schema:
-                  $ref: '#/components/schemas/usuario'
-        '400':
-          description: The specified user ID is invalid (not a number).
-        '404':
-          description: A user with the specified ID was not found.
-        default:
-          description: Unexpected error
-  /criar-usuario:
-    post:
-      tags:
-        - Usuario
-      operationId: createUser
-      requestBody:
-        description: Created user object
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/usuario'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/usuario'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/usuario'
-      responses:
-        default:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/usuario'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/usuario'
-  /editar-usuario:
-    put:
-      tags:
-        - Usuario
-      summary: Update user
-      description: This can only be done by the logged in user.
-      operationId: updateUser
-      requestBody:
-        description: Update an existent user in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/usuario'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/usuario'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/usuario'
-      responses:
-        default:
-          description: successful operation
-  /deletar-usuario:
-    delete:
-      tags:
-        - Usuario
-      operationId: deleteUser
-      responses:
-        '400':
-          description: Invalid username supplied
-        '404':
-          description: User not found
-components:
-  schemas:
-    usuario:
-      type: object
-      properties:
-        usuarioid:
-          type: integer
-          format: int64
-          example: 1
-        usuario:
-          type: string
-          example: admin
-        senha:
-          type: string
-          example: 'admin'
-        categoria:
-          type: integer
-          description: User Status
-          format: int32
-          example: 1
-      xml:
-        name: usuario
-  requestBodies:
-    UserArray:
-      description: List of user object
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/usuario'
-  securitySchemes:
-    petstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
-          scopes:
-            write:pets: modify pets in your account
-            read:pets: read your pets
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Catálogo de veículos",
+    "description": "API - Catalogo Veiculo",
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/buscar-usuarios": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/usuario"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/usuario"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/buscar-usuario/{usuarioid}": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "parameters": [
+          {
+            "name": "usuarioid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A user object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/usuario"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/usuario"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified user ID is invalid (not a number)."
+          },
+          "404": {
+            "description": "A user with the specified ID was not found."
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/criar-usuario": {
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/usuario"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/usuario"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/usuario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/usuario"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/usuario"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/editar-usuario": {
+      "put": {
+        "tags": [
+          "Usuario"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/usuario"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/usuario"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/usuario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/deletar-usuario/{usuarioid}": {
+      "delete": {
+        "tags": [
+          "Usuario"
+        ],
+        "parameters": [
+          {
+            "name": "usuarioid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/buscar-carros": {
+      "get": {
+        "tags": [
+          "Carro"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/carro"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/carro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/buscar-carro/{carroid}": {
+      "get": {
+        "tags": [
+          "Carro"
+        ],
+        "parameters": [
+          {
+            "name": "carroid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A user object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/carro"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/carro"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified user ID is invalid (not a number)."
+          },
+          "404": {
+            "description": "A user with the specified ID was not found."
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/criar-carro": {
+      "post": {
+        "tags": [
+          "Carro"
+        ],
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/carro"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/carro"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/carro"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/carro"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/carro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/editar-carro": {
+      "put": {
+        "tags": [
+          "Carro"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/carro"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/carro"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/carro"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/deletar-carro/{carroid}": {
+      "delete": {
+        "tags": [
+          "Carro"
+        ],
+        "parameters": [
+          {
+            "name": "carroid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "usuario": {
+        "type": "object",
+        "properties": {
+          "usuario": {
+            "type": "string",
+            "example": "admin"
+          },
+          "senha": {
+            "type": "string",
+            "example": "admin"
+          },
+          "categoria": {
+            "type": "integer",
+            "description": "User Status",
+            "format": "int32",
+            "example": 1
+          }
+        },
+        "xml": {
+          "name": "usuario"
+        }
+      },
+      "carro": {
+        "type": "object",
+        "properties": {
+          "carroid": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "carro": {
+            "type": "string",
+            "example": "admin"
+          },
+          "senha": {
+            "type": "string",
+            "example": "admin"
+          },
+          "categoria": {
+            "type": "integer",
+            "description": "User Status",
+            "format": "int32",
+            "example": 1
+          }
+        },
+        "xml": {
+          "name": "carro"
+        }
+      }
+    },
+    "requestBodies": {
+      "UserArray": {
+        "description": "List of user object",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/usuario"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
